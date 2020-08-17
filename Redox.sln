@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redox.API", "Redox.API\Redox.API.csproj", "{7E3A070A-8F9E-4DB6-BA08-D056C0A69B84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redox.Core", "Redox.Core\Redox.Core.csproj", "{AABC9962-DB5E-476E-BD39-FBA970BC93C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redox.Bootstrapper", "Redox.Bootstrapper\Redox.Bootstrapper.csproj", "{5628D73E-BD93-45EC-8228-F569F71D68BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E3A070A-8F9E-4DB6-BA08-D056C0A69B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E3A070A-8F9E-4DB6-BA08-D056C0A69B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E3A070A-8F9E-4DB6-BA08-D056C0A69B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E3A070A-8F9E-4DB6-BA08-D056C0A69B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AABC9962-DB5E-476E-BD39-FBA970BC93C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AABC9962-DB5E-476E-BD39-FBA970BC93C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AABC9962-DB5E-476E-BD39-FBA970BC93C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AABC9962-DB5E-476E-BD39-FBA970BC93C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5628D73E-BD93-45EC-8228-F569F71D68BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5628D73E-BD93-45EC-8228-F569F71D68BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5628D73E-BD93-45EC-8228-F569F71D68BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5628D73E-BD93-45EC-8228-F569F71D68BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
