@@ -8,8 +8,8 @@ namespace Redox.API.Player
     {
         IEnumerable<IPluginEngine> GetPlayers();
 
-        Task<IPlayer> FindPlayerAsync(string name);
+        Task<IRedoxPlayer> FindPlayerAsync(string name);
 
-        Task<IPlayer> FindPlayerByIdAsync(ulong id);
+        Task<IRedoxPlayer> FindPlayerByIdAsync(ulong id);
     }
 }

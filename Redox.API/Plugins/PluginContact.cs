@@ -9,6 +9,8 @@ namespace Redox.API.Plugins
         
         public Uri Repository { get; }
 
+        public PluginContact() {}
+        
         public PluginContact(string support, string repository = "")
         {
             this.Support = new Uri(support);

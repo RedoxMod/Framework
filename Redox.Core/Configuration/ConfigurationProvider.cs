@@ -47,8 +47,6 @@ namespace Redox.Core.Configuration
                 return null;
             return Task.FromResult(_configurations[plugin].FirstOrDefault(x => x.Info.Name == name)?.Configuration);
         }
-        
-        
         public Task RunAsync()
         {
             _configurations = new Dictionary<IBasePlugin, IList<IConfigurationContext>>();

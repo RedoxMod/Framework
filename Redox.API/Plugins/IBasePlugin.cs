@@ -1,4 +1,5 @@
-﻿using Redox.API.Commands;
+﻿using System.Threading.Tasks;
+using Redox.API.Commands;
 using Redox.API.Configuration;
 using Redox.API.Eventing;
 using Redox.API.Roles;
@@ -7,8 +8,10 @@ namespace Redox.API.Plugins
 {
     public interface IBasePlugin
     {
-        PluginInfo Info { get; }
-        PluginContact Contact { get; }
+        PluginInfo Info { get;  set; }
+        PluginContact Contact { get; set; }
+        
+        PluginAnalytics Analytics { get; set; }
         
         IConfigurationProvider Configurations { get; }
         
@@ -18,7 +21,7 @@ namespace Redox.API.Plugins
         string CurrentPath { get; }
         
         
-        void OnLoad();
-        void OnUnload();
+        Task OnLoadAsync();
+        Task OnUnloadAsync();
     }
 }

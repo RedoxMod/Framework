@@ -1,17 +1,23 @@
 ﻿using System.Threading.Tasks;
+using Redox.API.Components;
+using Redox.API.Plugins;
+using Redox.API.Users;
 
 namespace Redox.API.Commands
 {
-    public interface ICommandProvider
+    public interface ICommandProvider : IBaseComponent
     {
-        Task RegisterAsync<TCommand>() where TCommand : ICommand;
+        Task RegisterAsync<TCommand>(IBasePlugin plugin) where TCommand : ICommand;
         
-        Task UnregisterAsync<TCommand>() where TCommand : ICommand;
+        Task UnregisterAsync<TCommand>(IBasePlugin plugin) where TCommand : ICommand;
 
         Task<bool> HasAsync(string name);
 
         Task<ICommand> GetAsync(string name);
 
-        Task ClearAsync();
+
+        Task CallAsync(IRedoxUser sender, string name, string[] args);
+
+        Task ClearAsync(IBasePlugin plugin);
     }
 }

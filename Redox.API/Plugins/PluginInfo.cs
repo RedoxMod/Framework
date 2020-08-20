@@ -9,6 +9,8 @@ namespace Redox.API.Plugins
         public string Description { get; private set; } = "This is a plugin";
         public string Authors { get; private set; } = "Unknown";
         public string Version { get; private set; } = "1.0.0";
+
+        public PluginInfo() {}
         
         public PluginInfo(string title, string description, string authors, string version)
         {
