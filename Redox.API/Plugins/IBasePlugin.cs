@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Redox.API.Commands;
 using Redox.API.Configuration;
 using Redox.API.Eventing;
@@ -9,6 +10,7 @@ namespace Redox.API.Plugins
     public interface IBasePlugin
     {
         PluginInfo Info { get;  set; }
+
         PluginContact Contact { get; set; }
         
         PluginAnalytics Analytics { get; set; }
@@ -16,12 +18,21 @@ namespace Redox.API.Plugins
         IConfigurationProvider Configurations { get; }
         
         ICommandProvider Commands { get; }
+
         IRoleProvider Roles { get; }
+
+        FileInfo FileInfo { get; }
         
-        string CurrentPath { get; }
+        Task LoadAsync();
+
+        Task UnloadAsync();
         
-        
-        Task OnLoadAsync();
-        Task OnUnloadAsync();
+        Task LoadMethodsAsync();
+
+        Task<object> CallAsync(string name, params object[] args);
+
+        object Call(string name, params object[] args);
+
+        T Call<T>(string name, params object[] args);
     }
 }

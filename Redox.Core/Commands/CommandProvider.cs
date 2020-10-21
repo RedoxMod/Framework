@@ -25,7 +25,7 @@ namespace Redox.Core.Commands
 
             if (exists)
             {
-                Redox.GetMod().Logger.LogWarning("[{0}] The command {1} is already in use and can cause conflicts.",
+                RedoxMod.GetMod().Logger.LogWarning("[{0}] The command {1} is already in use and can cause conflicts.",
                     plugin.Info.Title, context.Info.Name);
             }
             if (!_commands.ContainsKey(plugin))
@@ -75,7 +75,7 @@ namespace Redox.Core.Commands
                         bool hasperm = await this.HasPerm(player, context.Permissions.Collection);
                         if (!hasperm)
                         {
-                            player.SendMessage("Redox.Messages.Commands.NoPermission");
+                            player.SendMessage("RedoxMod.Messages.Commands.NoPermission");
                             continue;
                         }
                         ICommandExecutionContext executionContext = new CommandExecutionContext(sender, args);
@@ -87,11 +87,12 @@ namespace Redox.Core.Commands
                     }
                     else
                     {
-                        player.SendMessage("Redox.Messages.Commands.NotAllowed");
+                        player.SendMessage("RedoxMod.Messages.Commands.NotAllowed");
                     }
                 }
                 else
                 {
+                    
                     //TODO: Add console command execution code.
                 }
             }
@@ -122,7 +123,6 @@ namespace Redox.Core.Commands
                     continue;
                 return true;
             }
-
             return false;
         }
     }

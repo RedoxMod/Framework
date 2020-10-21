@@ -10,7 +10,6 @@ namespace Redox.Core.Commands
     {
         public ICommand Command { get; }
         
-        
         public CommandInfoAttribute Info { get; }
         
         public CommandDetailsAttribute Details { get; }
@@ -29,7 +28,7 @@ namespace Redox.Core.Commands
 
             if (Info == null)
             { 
-                Redox.GetMod().Logger.LogWarning("[Redox.Commands] Command {0} is missing the \"CommandInfo\" Attribute, this command will not work without it!", type.FullName);
+                RedoxMod.GetMod().Logger.LogWarning("[RedoxMod.Commands] Command {0} is missing the \"CommandInfo\" Attribute, this command will not work without it!", type.FullName);
             }
         }
     }

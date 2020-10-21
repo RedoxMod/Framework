@@ -5,8 +5,7 @@ namespace Redox.API.Commands.Attributes
     [AttributeUsage(AttributeTargets.Class)]
     public class CommandInfoAttribute : Attribute
     {
-      
-
+        
         /// <summary>
         /// The name of the command
         /// <para>Example: /help - "help" is the name of the command</para>

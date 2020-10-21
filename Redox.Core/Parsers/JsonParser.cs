@@ -28,7 +28,7 @@ namespace Redox.Core.Parsers
             }
             catch (JsonException e)
             {
-                Redox.GetMod().Logger.LogError("[JsonParser] An error happened while trying to parse \"{0}\". Error: {1}", nameof(ob), e.Message);
+                RedoxMod.GetMod().Logger.LogError("[JsonParser] An error happened while trying to parse \"{0}\". Error: {1}", nameof(ob), e.Message);
                 return string.Empty;
             }
         }
@@ -48,7 +48,7 @@ namespace Redox.Core.Parsers
             }
             catch (Exception e)
             {
-                Redox.GetMod().Logger.LogError("[JsonParser] An error happened at \"ToFile\" \"{0}\". Error: {1}", nameof(ob), e.Message);
+                RedoxMod.GetMod().Logger.LogError("[JsonParser] An error happened at \"ToFile\" \"{0}\". Error: {1}", nameof(ob), e.Message);
             }
         }
         public static T FromJson<T>(string json)
@@ -59,7 +59,7 @@ namespace Redox.Core.Parsers
             }
             catch (Exception e)
             {
-                Redox.GetMod().Logger.LogError("[JsonParser] An error happened at \"FromJson\". Error: {0} ", e.Message);
+                RedoxMod.GetMod().Logger.LogError("[JsonParser] An error happened at \"FromJson\". Error: {0} ", e.Message);
                 return default;
             }
         }

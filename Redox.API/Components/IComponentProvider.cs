@@ -3,13 +3,16 @@ using System.Threading.Tasks;
 
 namespace Redox.API.Components
 {
+    /// <summary>
+    /// The generic component provider interface.
+    /// </summary>
     public interface IComponentProvider
     {
       //  Task RegisterAssemblyAsync(Assembly assembly);
 
-        Task<IBaseComponent> RegisterTypeAsync<TComponent>() where TComponent : IBaseComponent;
+        void RegisterType<TService, TImplementation>() where TImplementation : IBaseComponent;
 
-        Task<IBaseComponent> ResolveComponentAsync<TComponent>(string name = "") where TComponent : IBaseComponent;
+        TService ResolveComponent<TService>();
 
         Task StartAllAsync();
     }

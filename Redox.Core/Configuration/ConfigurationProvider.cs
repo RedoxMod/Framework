@@ -10,7 +10,7 @@ using Redox.API.Plugins;
 
 namespace Redox.Core.Configuration
 {
-    [ComponentInfo("ConfigurationProvider", LoadPriority.Medium)]
+    [ComponentInfo("ConfigurationProvider", LoadPriority.Low)]
     public sealed class ConfigurationProvider  : IBaseComponent, IConfigurationProvider
     {
         private IDictionary<IBasePlugin, IList<IConfigurationContext>> _configurations;
@@ -28,16 +28,15 @@ namespace Redox.Core.Configuration
 
             foreach (Type type in configs)
             {
-                object defaultconfiguration = Activator.CreateInstance(type);
-                IConfiguration configuration = (IConfiguration) defaultconfiguration;
+                object defaultConfiguration = Activator.CreateInstance(type);
+                IConfiguration configuration = (IConfiguration) defaultConfiguration;
                 ConfigInfo info = type.GetCustomAttribute<ConfigInfo>();
-                IConfigurationContext context = new ConfigurationContext(configuration, defaultconfiguration, info, plugin);
+                IConfigurationContext context = new ConfigurationContext(configuration, defaultConfiguration, info, plugin);
                 
                 if(!_configurations.ContainsKey(plugin))
                     _configurations.Add(plugin, new List<IConfigurationContext>());
                 _configurations[plugin].Add(context);
             }
-
             return Task.CompletedTask;
         }
 

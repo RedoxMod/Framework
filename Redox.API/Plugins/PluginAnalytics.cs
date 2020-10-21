@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+
 using Redox.API.Eventing;
 
 namespace Redox.API.Plugins

@@ -11,6 +11,12 @@ namespace Redox.API.Commands
         /// </summary>
         IRedoxUser Sender { get; }
         
+        /// <summary>
+        /// The arguments given.
+        /// <para>
+        /// Example: /help 1 - the number 1 will be the first argument.
+        /// </para>
+        /// </summary>
         IReadOnlyCollection<string> Args { get; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Redox.API.Plugins;
 
 namespace Redox.API.Engines
 {
+    public delegate void PluginLoaded(IBasePlugin plugin);
     /// <summary>
     /// Base representation of a plugin engine.
     /// </summary>
@@ -24,7 +26,7 @@ namespace Redox.API.Engines
         /// </summary>
         /// <returns></returns>
         Task StartAsync();
-
+        
         /// <summary>
         /// Loads a plugin.
         /// </summary>

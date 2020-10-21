@@ -2,7 +2,7 @@
 
 namespace Redox.API.Localization
 {
-    public interface ITranslation : IDictionary<string, string>
+    public interface ITranslation
     {
         /// <summary>
         /// The language of the translation.

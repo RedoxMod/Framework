@@ -9,9 +9,5 @@ namespace Redox.API.Data
         Task SaveAsync();
 
         Task LoadAsync();
-
-        Task WriteObjectAsync(object ob);
-
-        Task<T> ReadObjectAsync<T>();
     }
 }

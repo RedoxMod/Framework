@@ -14,6 +14,5 @@ namespace Redox.Core.Commands
             Sender = sender;
             Args = args;
         }
-
     }
 }
