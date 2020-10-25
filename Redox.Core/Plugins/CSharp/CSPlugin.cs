@@ -30,7 +30,7 @@ namespace Redox.Core.Plugins.CSharp
         
         public ICommandProvider Commands { get; }
 
-        public IRoleProvider Roles => RedoxMod.GetMod().RoleProvider;
+        public IRolesProvider Roleses => RedoxMod.GetMod().RolesProvider;
 
         public IPluginManager PluginManager => RedoxMod.GetMod().PluginManager;
 
@@ -96,7 +96,7 @@ namespace Redox.Core.Plugins.CSharp
             }
             catch(Exception ex) 
             {
-                RedoxMod.GetMod().Logger.LogError("[CSharp-Error] Failed to invoke method {0} in {1} due to error: {2}", name, Info.Title, ex.Message);
+                RedoxMod.GetMod().Logger.Error("[CSharp-Error] Failed to invoke method {0} in {1} due to error: {2}", name, Info.Title, ex.Message);
                 return null;
             }
             finally
@@ -104,7 +104,7 @@ namespace Redox.Core.Plugins.CSharp
                 sw.Stop();
                 if(sw.ElapsedMilliseconds > 500)
                 {
-                    RedoxMod.GetMod().Logger.LogInfo("[{0}] Invoking method {1} took more than 500 milliseconds. This is considered slow!");
+                    RedoxMod.GetMod().Logger.Info("[{0}] Invoking method {1} took more than 500 milliseconds. This is considered slow!");
                 }
             }
         }

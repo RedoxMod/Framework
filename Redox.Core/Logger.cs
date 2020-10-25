@@ -17,36 +17,38 @@ namespace Redox.Core
             Console.WriteLine(message, args);
         }
 
-        public void LogInfo(string message, params object[] args)
+        public void Info(string message, params object[] args)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(message, args);
             Console.ResetColor();
         }
 
-        public void LogWarning(string message, params object[] args)
+        public void Warning(string message, params object[] args)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(message, args);
             Console.ResetColor();
         }
 
-        public void LogError(string message, params object[] args)
+        public void Error(string message, params object[] args)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(message, args);
             Console.ResetColor();
         }
 
-        public void LogException(Exception exception, bool verbose = false)
+        public void Exception(Exception exception, bool verbose = false)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(verbose ? exception.ToString() : exception.Message);
             Console.ResetColor();
         }
 
-        internal Logger() {}
-
+        public void Debug(string message,  params object[] args)
+        {
+            
+        }
         public Task RunAsync()
         {
             datetime = DateTime.Now.ToString("DD-mm-YYYY");
@@ -59,5 +61,6 @@ namespace Redox.Core
             writer?.Close();
             return Task.CompletedTask;
         }
+        
     }
 }

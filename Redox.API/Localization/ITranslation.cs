@@ -8,5 +8,7 @@ namespace Redox.API.Localization
         /// The language of the translation.
         /// </summary>
         string Language { get; }
+
+        IDictionary<string, string> Messages { get; }
     }
 }

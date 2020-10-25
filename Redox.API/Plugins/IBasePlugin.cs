@@ -19,7 +19,7 @@ namespace Redox.API.Plugins
         
         ICommandProvider Commands { get; }
 
-        IRoleProvider Roles { get; }
+        IRolesProvider Roleses { get; }
 
         FileInfo FileInfo { get; }
         

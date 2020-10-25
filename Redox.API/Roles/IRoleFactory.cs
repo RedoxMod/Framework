@@ -10,10 +10,10 @@ namespace Redox.API.Roles
         /// <summary>
         ///  Creates a new setting for a role.
         /// </summary>
-        /// <param name="defaultrole">Should people be automatically assigned to this role?</param>
-        /// <param name="masterrole">Is this the master administration role?</param>
+        /// <param name="defaultRole">Should people be automatically assigned to this role?</param>
+        /// <param name="masterRole">Is this the master administration role?</param>
         /// <returns><see cref="RoleSettings"/></returns>
-        Task<RoleSettings> CreateRoleSettingsAsync(bool defaultrole, bool masterrole);
+        Task<RoleSettings> CreateSettingsAsync(bool defaultRole, bool masterRole);
         
         /// <summary>
         ///  Creates a new role.

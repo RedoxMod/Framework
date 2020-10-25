@@ -27,7 +27,7 @@ namespace Redox.Core.Components
 
             if (info == null)
             {
-                RedoxMod.GetMod().Logger.LogWarning("[RedoxMod-Components] Failed to load component {0} because it's missing the \"ComponentInfo\" attribute!");
+                RedoxMod.GetMod().Logger.Warning("[RedoxMod-Components] Failed to load component {0} because it's missing the \"ComponentInfo\" attribute!");
                 return;
             }
 
@@ -52,7 +52,7 @@ namespace Redox.Core.Components
 
         public async Task StartAllAsync()
         {
-            Console.WriteLine("[RedoxMod] Loading components...");
+            RedoxMod.GetMod().Logger.Info("[RedoxMod] Loading components...");
             IEnumerable<IComponentContext> components =
                 (from x in _components where x.ComponentInfo.Priority != LoadPriority.None select x);
             IOrderedEnumerable<IComponentContext> contexts =
@@ -60,7 +60,16 @@ namespace Redox.Core.Components
             
             foreach (IComponentContext context in contexts)
             {
-                await context.BaseComponent.RunAsync();
+                try
+                {
+                    await context.BaseComponent.RunAsync();
+                    RedoxMod.GetMod().Logger.Info("[Component] Loading component {0}", context.ComponentInfo.Name);
+                }
+                catch (Exception e)
+                {
+                    RedoxMod.GetMod().Logger.Error("[Components] Failed to load component {0} due to error: {1}", context.ComponentInfo.Name, e.Message);
+                }
+                
             }
         }
     }

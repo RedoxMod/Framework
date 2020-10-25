@@ -5,7 +5,7 @@ namespace Redox.Core.Roles
 {
     public sealed class RoleFactory : IRoleFactory
     {
-        public Task<RoleSettings> CreateRoleSettingsAsync(bool defaultrole, bool masterrole)
+        public Task<RoleSettings> CreateSettingsAsync(bool defaultRole, bool masterRole)
         {
             throw new System.NotImplementedException();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 using Redox.API.Commands;
@@ -25,7 +26,7 @@ namespace Redox.Core.Commands
 
             if (exists)
             {
-                RedoxMod.GetMod().Logger.LogWarning("[{0}] The command {1} is already in use and can cause conflicts.",
+                RedoxMod.GetMod().Logger.Warning("[{0}] The command {1} is already in use and can cause conflicts.",
                     plugin.Info.Title, context.Info.Name);
             }
             if (!_commands.ContainsKey(plugin))
@@ -43,12 +44,7 @@ namespace Redox.Core.Commands
 
         public Task<bool> HasAsync(string name)
         {
-            if (_commands.Values.Any(commands => commands.Any(x => x.Info.Name == name)))
-            {
-                return Task.FromResult(true);
-            }
-
-            return Task.FromResult(false);
+            return Task.FromResult(_commands.Values.Any(commands => commands.Any(x => x.Info.Name == name)));
         }
 
         public Task<ICommand> GetAsync(string name)
@@ -72,8 +68,8 @@ namespace Redox.Core.Commands
                     IRedoxPlayer player = (IRedoxPlayer) sender;
                     if (context.Info.Caller == CommandCaller.Player || context.Info.Caller == CommandCaller.Both)
                     {
-                        bool hasperm = await this.HasPerm(player, context.Permissions.Collection);
-                        if (!hasperm)
+                        bool hasPerm = await this.HasPerm(player, context.Permissions.Collection);
+                        if (!hasPerm)
                         {
                             player.SendMessage("RedoxMod.Messages.Commands.NoPermission");
                             continue;
@@ -115,7 +111,7 @@ namespace Redox.Core.Commands
             return Task.CompletedTask;
         }
 
-        private async Task<bool> HasPerm(IRedoxPlayer player, IReadOnlyCollection<string> commandPermissions)
+        private async Task<bool> HasPerm(IRedoxPlayer player, IEnumerable<string> commandPermissions)
         {
             foreach (string perm in commandPermissions)
             {

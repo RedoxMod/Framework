@@ -22,7 +22,7 @@ namespace Redox.Core.Parsers
             }
             catch (Exception e)
             {
-                RedoxMod.GetMod().Logger.LogError("[XmlParser] An error happended while trying to serialize \"{0}\" to xml. Error: {1}", nameof(ob), e.Message);
+                RedoxMod.GetMod().Logger.Error("[XmlParser] An error happended while trying to serialize \"{0}\" to xml. Error: {1}", nameof(ob), e.Message);
                 return string.Empty;
             }
         }

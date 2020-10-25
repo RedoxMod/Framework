@@ -35,6 +35,8 @@ namespace Redox.API.Player
         
         Position Position { get; }
         
+        IPlayerInventory Inventory { get; }
+        
         IEnumerable<string> BlockedCommands { get; }
         #endregion
 
