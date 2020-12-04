@@ -1,2 +1,2 @@
-﻿#API
-The Redox API contains all contracts and attributes.
+# Redox API
+The Redox API holds all the contracts that are being extended inside the Redox Core Module.
