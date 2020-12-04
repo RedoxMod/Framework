@@ -3,6 +3,9 @@ using Redox.API.Users;
 
 namespace Redox.API.Commands
 {
+    /// <summary>
+    /// The context of the command executor.
+    /// </summary>
     public interface ICommandExecutionContext
     {
         /// <summary>

@@ -7,8 +7,10 @@ namespace Redox.API.Engines
     {
         Task RegisterAsync<TEngine>() where TEngine : IPluginEngine;
 
-        Task<IPluginEngine> ResolveAsync<TEngine>() where TEngine : IPluginEngine;
+        IPluginEngine Resolve<TEngine>() where TEngine : IPluginEngine;
         
         Task UnregisterAsync<TEngine>() where TEngine : IPluginEngine;
+        
+        Task StartAllAsync();
     }
 }

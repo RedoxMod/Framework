@@ -1,62 +1,56 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Redox.API.Components;
 using Redox.API.Localization;
+using Redox.API.Player;
 using Redox.API.Plugins;
 
 namespace Redox.Core.Localization
 {
-    public class TranslationsProvider : ITranslationsProvider
+    [ComponentInfo("Translations", LoadPriority.Low)]
+    public sealed class TranslationsProvider : ITranslationsProvider
     {
-        private IBasePlugin _plugin;
-
-        public bool Exists => File.Exists(Path.Combine(_plugin.FileInfo.DirectoryName!, "Translations.json"));
         
-        private IList<ITranslation> _translations = new List<ITranslation>();
+        private readonly IList<ITranslationsRegistration> _registrations = new List<ITranslationsRegistration>();
         
-        public  Task RegisterAsync(ITranslation translation)
+        public void Register(in ITranslationsRegistration registration)
         {
-            if (!_translations.Any((x => x.Language == translation.Language)))
-            {
-                _translations.Add(translation);
-            }
+            if (registration == null) 
+                return;
+            
+            string pluginTitle = registration.Plugin.Info.Title;
+
+            if (_registrations.All(x => x.Plugin.Info.Title != pluginTitle))
+                _registrations.Add(registration);
+        }
+
+        public void Unregister(in IBasePlugin plugin)
+        {
+            if (plugin == null)
+                return;
+            string pluginTitle = plugin.Info.Title;
+
+            ITranslationsRegistration registration =
+                _registrations.FirstOrDefault(x => x.Plugin.Info.Title == pluginTitle);
+            if(registration != null)
+                _registrations.Remove(registration);
+        }
+        
+        public Task RunAsync()
+        {
             return Task.CompletedTask;
         }
 
-        public async Task<string> TranslateAsync(CultureInfo culture, string key)
+        public Task ShutdownAsync()
         {
-            string language = culture.Parent.ToString();
-            return await TranslateAsync(language, key);
+            return Task.CompletedTask;
         }
 
-        public Task<string> TranslateAsync(string lang, string key)
+        public static TranslationsProvider Get()
         {
-            ITranslation translation = _translations.FirstOrDefault(x => x.Language == lang);
-            if (translation != null)
-            {
-                string message;
-                if (translation.Messages.TryGetValue(key, out message))
-                {
-                    return Task.FromResult(message);
-                }
-                return null;
-            }
-
-            return null;
+            return (TranslationsProvider)RedoxMod.GetMod().Components.ResolveComponent<ITranslationsProvider>();
         }
-
         
-        public async Task SaveAsync()
-        {
-            //TODO
-        }
-
-        public async Task LoadAsync()
-        {
-            //TODO
-        }
     }
 }

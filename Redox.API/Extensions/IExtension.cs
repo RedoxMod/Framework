@@ -8,9 +8,9 @@ namespace Redox.API.Extensions
     /// </summary>
     public interface IExtension
     {
-        PluginInfo Info { get;  set; }
+        IPluginInfo Info { get; }
 
-        PluginContact Contact { get; set; }
+        IPluginSupport Support { get;}
         
         Task LoadAsync();
 

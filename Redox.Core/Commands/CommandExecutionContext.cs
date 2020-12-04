@@ -4,7 +4,7 @@ using Redox.API.Users;
 
 namespace Redox.Core.Commands
 {
-    public  sealed  class CommandExecutionContext : ICommandExecutionContext
+    public sealed class CommandExecutionContext : ICommandExecutionContext
     {
         public IRedoxUser Sender { get; }
         public IReadOnlyCollection<string> Args { get; }

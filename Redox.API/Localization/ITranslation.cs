@@ -9,6 +9,6 @@ namespace Redox.API.Localization
         /// </summary>
         string Language { get; }
 
-        IDictionary<string, string> Messages { get; }
+        IReadOnlyDictionary<string, string> Messages { get; }
     }
 }

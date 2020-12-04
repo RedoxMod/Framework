@@ -7,9 +7,9 @@ namespace Redox.Core.Localization
     {
         public string Language { get; }
 
-        public IDictionary<string, string> Messages { get; }
+        public IReadOnlyDictionary<string, string> Messages { get; }
 
-        public Translation(string language, IDictionary<string, string> messages)
+        public Translation(string language, IReadOnlyDictionary<string, string> messages)
         {
             Language = language;
             Messages = messages;

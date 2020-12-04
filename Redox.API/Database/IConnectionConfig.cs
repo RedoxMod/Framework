@@ -2,16 +2,29 @@
 {
     public interface IConnectionConfig
     { 
-        bool Enabled { get; set; }
-            
-        string Server { get; set; }
-
-        string Username { get; set; }
+        /// <summary>
+        /// The Database server.
+        /// </summary>
+        string Server { get; }
         
-        string Password { get; set;}
+        /// <summary>
+        /// The username of the database.
+        /// </summary>
+        string Username { get; }
         
-        string Database { get; set;}
-
-        uint Port { get; set; }
+        /// <summary>
+        /// The password of the database.
+        /// </summary>
+        string Password { get; }
+        
+        /// <summary>
+        /// The name of the database.
+        /// </summary>
+        string Database { get; }
+        
+        /// <summary>
+        /// The port of the server.
+        /// </summary>
+        uint Port { get; }
     }
 }

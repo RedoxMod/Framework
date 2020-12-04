@@ -8,7 +8,7 @@ using Redox.API.Player;
 
 namespace Redox.API
 {
-    public interface IServer : IBaseComponent, IPlayerManager
+    public interface IServer : IPlayerManager
     {
         string ServerName { get; set; }
         
@@ -21,14 +21,12 @@ namespace Redox.API
         Version GameVersion { get; }
         
         CultureInfo Language { get; }
-
-        void ReloadAsync();
         
-        void ShutDownAsync();
+        void Shutdown();
 
-        void SendMessage(string message);
+        void BroadcastChat(string message);
         
-        void SendMessage(string prefix, string message);
+        void BroadcastChat(string prefix, string message);
 
         void Ban(ulong id);
 

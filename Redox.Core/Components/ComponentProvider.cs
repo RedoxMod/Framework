@@ -8,17 +8,17 @@ using Redox.API.Components;
 
 namespace Redox.Core.Components
 {
-    public sealed class ComponentProvider : IComponentProvider
+    public sealed class ComponentsProvider : IComponentsProvider
     {
 
-        private static ComponentProvider _instance;
+        private static ComponentsProvider _instance;
         
         
         private readonly List<IComponentContext> _components = new List<IComponentContext>();
 
-        public static ComponentProvider Get()
+        public static ComponentsProvider Get()
         {
-            return _instance ??= new ComponentProvider();
+            return _instance ??= new ComponentsProvider();
         }
         public void RegisterType<TService, TImplementation>() where TImplementation : IBaseComponent
         {
@@ -27,7 +27,7 @@ namespace Redox.Core.Components
 
             if (info == null)
             {
-                RedoxMod.GetMod().Logger.Warning("[RedoxMod-Components] Failed to load component {0} because it's missing the \"ComponentInfo\" attribute!");
+                RedoxMod.GetMod().TempLogger.Warning("[RedoxMod-Components] Failed to load component {0} because it's missing the \"ComponentInfo\" attribute!");
                 return;
             }
 
@@ -52,7 +52,7 @@ namespace Redox.Core.Components
 
         public async Task StartAllAsync()
         {
-            RedoxMod.GetMod().Logger.Info("[RedoxMod] Loading components...");
+            RedoxMod.GetMod().TempLogger.Info("[RedoxMod] Loading components...");
             IEnumerable<IComponentContext> components =
                 (from x in _components where x.ComponentInfo.Priority != LoadPriority.None select x);
             IOrderedEnumerable<IComponentContext> contexts =
@@ -63,11 +63,11 @@ namespace Redox.Core.Components
                 try
                 {
                     await context.BaseComponent.RunAsync();
-                    RedoxMod.GetMod().Logger.Info("[Component] Loading component {0}", context.ComponentInfo.Name);
+                    RedoxMod.GetMod().TempLogger.Info("[Component] Loading component {0}", context.ComponentInfo.Name);
                 }
                 catch (Exception e)
                 {
-                    RedoxMod.GetMod().Logger.Error("[Components] Failed to load component {0} due to error: {1}", context.ComponentInfo.Name, e.Message);
+                    RedoxMod.GetMod().TempLogger.Error("[Components] Failed to load component {0} due to error: {1}", context.ComponentInfo.Name, e.Message);
                 }
                 
             }

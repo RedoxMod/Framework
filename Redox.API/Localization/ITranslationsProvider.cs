@@ -1,15 +1,13 @@
-﻿using System.Globalization;
-using System.Threading.Tasks;
-using Redox.API.Data;
+﻿using Redox.API.Components;
+using Redox.API.Plugins;
 
 namespace Redox.API.Localization
 {
-    public interface ITranslationsProvider : ISaveable
+    public interface ITranslationsProvider : IBaseComponent
     {
-        Task RegisterAsync(ITranslation translation);
+        void Register(in ITranslationsRegistration registration);
+
+        void Unregister(in IBasePlugin plugin);
         
-        Task<string> TranslateAsync(CultureInfo culture, string key);
-        
-        Task<string> TranslateAsync(string lang, string key);
     }
 }

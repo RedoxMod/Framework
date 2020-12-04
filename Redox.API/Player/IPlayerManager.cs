@@ -6,10 +6,10 @@ namespace Redox.API.Player
 {
     public interface IPlayerManager
     {
-        IEnumerable<IPluginEngine> GetPlayers();
+        IEnumerable<IRedoxPlayer> GetPlayers();
 
-        Task<IRedoxPlayer> FindPlayerAsync(string name);
+        IRedoxPlayer FindPlayer(string name);
 
-        Task<IRedoxPlayer> FindPlayerByIdAsync(ulong id);
+        IRedoxPlayer FindPlayerById(ulong id);
     }
 }

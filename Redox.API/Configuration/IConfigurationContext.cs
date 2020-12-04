@@ -1,9 +1,10 @@
 ﻿using System;
+using Redox.API.Data;
 using Redox.API.Plugins;
 
 namespace Redox.API.Configuration
 {
-    public interface IConfigurationContext
+    public interface IConfigurationContext : ISaveable
     {
         
         /// <summary>
@@ -11,10 +12,6 @@ namespace Redox.API.Configuration
         /// </summary>
         IConfiguration Configuration { get; }
         
-        /// <summary>
-        /// The default configuration instance.
-        /// </summary>
-        object DefaultConfiguration { get; }
         
         /// <summary>
         /// Meta data about this configuration.

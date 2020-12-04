@@ -9,19 +9,25 @@ using Redox.API.Components;
 using Redox.API.Configuration;
 using Redox.API.Database;
 using Redox.API.Engines;
+using Redox.API.Localization;
+using Redox.API.Logging;
 using Redox.API.Plugins;
 using Redox.API.Roles;
-
+using Redox.API.Timers;
 using Redox.Core.Commands;
 using Redox.Core.Components;
 using Redox.Core.Configuration;
 using Redox.Core.Configuration.Redox;
 using Redox.Core.Database;
 using Redox.Core.Engines;
+using Redox.Core.Events;
 using Redox.Core.Http;
-using Redox.Core.Parsers;
+using Redox.Core.Localization;
+using Redox.Core.Logging;
 using Redox.Core.Plugins;
+using Redox.Core.Plugins.CSharp;
 using Redox.Core.Roles;
+using Redox.Core.Timers;
 
 namespace Redox.Core
 {
@@ -43,20 +49,36 @@ namespace Redox.Core
         
         #region Directories
 
-        public string RootDirectory { get; } = "RedoxMod\\";
-        public string PluginDirectory { get; private set; }
-        public string DataDirectory { get; private set; }
-        public string LoggingDirectory { get; private set; }
-
-        public string DependenciesDirectory {get; private set;}
+        public string RootDirectory { get; private set; } = Path.Combine(Directory.GetCurrentDirectory(), "RedoxMod");
+        public string PluginDirectory => Path.Combine(RootDirectory, "Plugins");
+        public string DataDirectory => Path.Combine(RootDirectory, "Data");
+        public string LoggingDirectory => Path.Combine(RootDirectory, "Logs");
+        public string DependenciesDirectory => Path.Combine(RootDirectory, "Dependencies");
+        public string ExtensionsDirectory => Path.Combine(RootDirectory, "Extensions");
+        
         #endregion
 
         #region Components
 
-        public IComponentProvider Components => ComponentProvider.Get();
+        public IComponentsProvider Components => ComponentsProvider.Get();
 
-        public ILogger Logger => Components.ResolveComponent<ILogger>();
+        public TempLogger TempLogger => TempLogger.Get();
 
+        private ILogger _logger;
+        public ILogger Logger
+        {
+            get => _logger;
+            set => _logger ??= value;
+        }
+
+        private IServer _server;
+
+        public IServer Server
+        {
+            get => _server;
+            set => _server ??= value;
+        }
+        
         public IRolesProvider RolesProvider => Components.ResolveComponent<IRolesProvider>();
         
         public IPluginEngineProvider PluginEngineProvider => Components.ResolveComponent<IPluginEngineProvider>();
@@ -66,35 +88,37 @@ namespace Redox.Core
         #endregion
         
         #endregion
-        
-        public async Task InitializeAsync()
+
+        public async Task InitializeAsync(string modDir)
         {
-            PluginDirectory = "Plugins";
-            DataDirectory = "Data";
-            LoggingDirectory = "Logs";
-            DependenciesDirectory = "Dependencies";
+            if (!string.IsNullOrEmpty(modDir))
+                RootDirectory = modDir;
+            
             if (!Directory.Exists(RootDirectory)) Directory.CreateDirectory(RootDirectory);
-            Directory.SetCurrentDirectory(RootDirectory);
             if (!Directory.Exists(PluginDirectory)) Directory.CreateDirectory(PluginDirectory);
             if (!Directory.Exists(DataDirectory)) Directory.CreateDirectory(DataDirectory);
             if (!Directory.Exists(LoggingDirectory)) Directory.CreateDirectory(LoggingDirectory);
             if (!Directory.Exists(DependenciesDirectory)) Directory.CreateDirectory(DependenciesDirectory);
+            if (!Directory.Exists(ExtensionsDirectory)) Directory.CreateDirectory(ExtensionsDirectory);
             
-            //Used for local testing. Will be removed in the future.
-            File.WriteAllText("redox.config.xml", XmlParser.ToXml(Config.Init()));
+            Hooks.InitHooks();
             this.RegisterComponents();
+            
+            await PluginEngineProvider.RegisterAsync<ExtensionsEngine>();
+            await PluginEngineProvider.RegisterAsync<CSharpEngine>();
+            await PluginEngineProvider.StartAllAsync();
         }
-
         private async void RegisterComponents()
         {
-            Components.RegisterType<ILogger, Logger>();
+           // Components.RegisterType<TempLogger, TempLogger>();
             Components.RegisterType<IRolesProvider, RolesProvider>();
             Components.RegisterType<IPermissionsProvider, PermissionsProvider>();
             Components.RegisterType<IConfigurationProvider, ConfigurationProvider>();
             Components.RegisterType<IPluginEngineProvider, PluginEngineProvider>();
             Components.RegisterType<IPluginManager, PluginManager>();
-            Components.RegisterType<ICommandProvider, CommandProvider>();
-
+            Components.RegisterType<ICommandsProvider, CommandsProvider>();
+            Components.RegisterType<ITranslationsProvider, TranslationsProvider>();
+            Components.RegisterType<ITimersProvider, TimersProvider>();
             await Components.StartAllAsync();
         }
 

@@ -7,48 +7,74 @@ using System.Threading.Tasks;
 using Redox.API.Components;
 using Redox.API.Configuration;
 using Redox.API.Plugins;
+using Redox.Core.Helpers;
 
 namespace Redox.Core.Configuration
 {
     [ComponentInfo("ConfigurationProvider", LoadPriority.Low)]
-    public sealed class ConfigurationProvider  : IBaseComponent, IConfigurationProvider
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public sealed class ConfigurationProvider : IConfigurationProvider
     {
-        private IDictionary<IBasePlugin, IList<IConfigurationContext>> _configurations;
+        private readonly IDictionary<string, IList<IConfigurationContext>> _configurations = new Dictionary<string, IList<IConfigurationContext>>();
 
         public Task RegisterAsync(IBasePlugin plugin)
         {
-            if(_configurations.ContainsKey(plugin))
-                _configurations[plugin].Clear();
-            
-            Assembly assembly = plugin.GetType().Assembly;
-            
-            IEnumerable<Type> configs = (from x in assembly.GetExportedTypes()
-                where x.IsSubclassOf(typeof(IConfiguration)) && x.GetCustomAttribute<ConfigInfo>() != null
-                select x);
-
-            foreach (Type type in configs)
+            try
             {
-                object defaultConfiguration = Activator.CreateInstance(type);
-                IConfiguration configuration = (IConfiguration) defaultConfiguration;
-                ConfigInfo info = type.GetCustomAttribute<ConfigInfo>();
-                IConfigurationContext context = new ConfigurationContext(configuration, defaultConfiguration, info, plugin);
+                string title = plugin.Info.Title;
+                if (_configurations.ContainsKey(title))
+                    return Task.CompletedTask;
                 
-                if(!_configurations.ContainsKey(plugin))
-                    _configurations.Add(plugin, new List<IConfigurationContext>());
-                _configurations[plugin].Add(context);
+                Assembly assembly = plugin.GetType().Assembly;
+            
+                //Let's collect all the configuration classes.
+                IEnumerable<Type> configs = (from x in assembly.GetExportedTypes()
+                    where x.IsSubclassOf(typeof(PluginConfiguration)) && x.GetCustomAttribute<ConfigInfo>() != null
+                    select x);
+                //Looping through the collected configurations and load/save them.
+                foreach (Type type in configs)
+                {
+                    try
+                    {
+                        IConfiguration configuration = (IConfiguration) Activator.CreateInstance(type);
+                        ConfigInfo info = type.GetCustomAttribute<ConfigInfo>();
+                        IConfigurationContext context = new ConfigurationContext(configuration, info, plugin);
+                        if(!_configurations.ContainsKey(title))
+                            _configurations.Add(title, new List<IConfigurationContext>());
+                        _configurations[title].Add(context);
+                    }
+                    catch (Exception e)
+                    {
+                        RedoxMod.GetMod().Logger.Error(e.ToString());
+                    }
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+         
             return Task.CompletedTask;
         }
 
         public Task<IConfiguration> ResolveAsync(IBasePlugin plugin, string name)
         {
-            if (!_configurations.ContainsKey(plugin))
+            if (!_configurations.ContainsKey(plugin.Info.Title))
                 return null;
-            return Task.FromResult(_configurations[plugin].FirstOrDefault(x => x.Info.Name == name)?.Configuration);
+            var context = _configurations[plugin.Info.Title].FirstOrDefault(x => x.Info.Name == name);
+            if (context == null) return null;
+            
+            ConfigHelper.SaveOrLoadConfig(plugin, context);
+            return Task.FromResult(context.Configuration);
+        }
+
+        public static IConfigurationProvider Get()
+        {
+            return RedoxMod.GetMod().Components.ResolveComponent<IConfigurationProvider>();
         }
         public Task RunAsync()
         {
-            _configurations = new Dictionary<IBasePlugin, IList<IConfigurationContext>>();
             return Task.CompletedTask;
         }
 

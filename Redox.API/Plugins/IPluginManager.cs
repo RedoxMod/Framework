@@ -5,9 +5,9 @@ namespace Redox.API.Plugins
 {
     public interface IPluginManager : IBaseComponent
     {
-        void AddPlugin(IBasePlugin plugin);
+        void AddPlugin(in IBasePlugin plugin);
         
-        void RemovePlugin(IBasePlugin plugin);
+        void RemovePlugin(in IBasePlugin plugin);
         
         Task LoadPlugin(string name);
 

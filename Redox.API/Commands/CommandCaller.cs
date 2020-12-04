@@ -3,7 +3,7 @@
 namespace Redox.API.Commands
 {
     /// <summary>
-    /// This represents the type that executed the command.
+    /// The CommamdCaller defines which type of user executes a command.
     /// </summary>
     public enum CommandCaller
     {

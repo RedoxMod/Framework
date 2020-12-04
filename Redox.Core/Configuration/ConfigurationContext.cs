@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 using Redox.API.Configuration;
 using Redox.API.Plugins;
 
@@ -8,14 +10,24 @@ namespace Redox.Core.Configuration
     {
         public IConfiguration Configuration { get; }
         
-        public object DefaultConfiguration { get; }
         public ConfigInfo Info { get; }
         public IBasePlugin Plugin { get; }
         
-        public ConfigurationContext(IConfiguration configuration, object defaultConfiguration, ConfigInfo info, IBasePlugin plugin)
+        
+        public bool Exists { get; }
+        public async Task SaveAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task LoadAsync()
+        {
+            throw new NotImplementedException();
+        }
+        
+        public ConfigurationContext(IConfiguration configuration, ConfigInfo info, IBasePlugin plugin)
         {
             Configuration = configuration;
-            DefaultConfiguration = defaultConfiguration;
             Info = info;
             Plugin = plugin;
         }

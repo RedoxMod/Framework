@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 using Redox.API.Components;
 using Redox.API.Roles;
-using Redox.Core.Parsers;
+using Redox.Core.Components;
+using Redox.Core.Serialization;
 
 
 #pragma warning disable CS1998
@@ -16,7 +17,7 @@ namespace Redox.Core.Roles
     [ComponentInfo("RoleProvider", LoadPriority.Medium)]
     public sealed class RolesProvider : IRolesProvider
     {
-        private IList<IRole> _roles;
+        private IList<IRole> _roles = new List<IRole>();
         
         private readonly string _filePath = Path.Combine(RedoxMod.GetMod().DataDirectory, "redox.roles.json");
 
@@ -61,12 +62,12 @@ namespace Redox.Core.Roles
         {
             try
             {
-                RedoxMod.GetMod().Logger.Info("[RedoxMod] Saving roles...");
-                JsonParser.ToFile(_filePath, _roles);
+                RedoxMod.GetMod().TempLogger.Info("[RedoxMod] Saving roles...");
+                JsonSerializer.ToFile(_filePath, _roles);
             }
             catch (Exception e)
             {
-                RedoxMod.GetMod().Logger.Error("[RedoxMod] Failed to save roles data due to error: " + e.Message);
+                RedoxMod.GetMod().TempLogger.Error("[RedoxMod] Failed to save roles data due to error: " + e.Message);
             }
             return Task.CompletedTask;
 
@@ -76,19 +77,24 @@ namespace Redox.Core.Roles
         {
             try
             {
-                RedoxMod.GetMod().Logger.Info("[RedoxMod] Loading roles...");
+                RedoxMod.GetMod().TempLogger.Info("[RedoxMod] Loading roles...");
                 if (!Exists)
                     _roles = new List<IRole>();
                 else
-                    _roles = JsonParser.FromFile<List<IRole>>(_filePath);
+                    _roles = JsonSerializer.FromFile<List<IRole>>(_filePath);
             }
             catch (Exception e)
             {
-                RedoxMod.GetMod().Logger.Error("[RedoxMod] Failed to load roles data due to error: " + e.Message);
+                RedoxMod.GetMod().TempLogger.Error("[RedoxMod] Failed to load roles data due to error: " + e.Message);
                 _roles = new List<IRole>();
             }
 
             return Task.CompletedTask;
+        }
+
+        public static RolesProvider Get()
+        {
+            return (RolesProvider)ComponentsProvider.Get().ResolveComponent<IRolesProvider>();
         }
     }
 }

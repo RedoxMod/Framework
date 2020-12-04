@@ -1,27 +1,27 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Redox.API.Commands;
-using Redox.API.Configuration;
-using Redox.API.Eventing;
+using Redox.API.Localization;
 using Redox.API.Roles;
 
 namespace Redox.API.Plugins
 {
     public interface IBasePlugin
     {
-        PluginInfo Info { get;  set; }
+        IPluginInfo Info { get; }
 
-        PluginContact Contact { get; set; }
+        IPluginSupport Support { get; }
         
-        PluginAnalytics Analytics { get; set; }
+        IPluginAnalytics Analytics { get; }
         
-        IConfigurationProvider Configurations { get; }
+        PluginState State { get; }
         
-        ICommandProvider Commands { get; }
-
-        IRolesProvider Roleses { get; }
+        IRolesProvider Roles { get; }
+        
+        ITranslationsRegistration Translations { get; }
 
         FileInfo FileInfo { get; }
+        
+        DirectoryInfo Directory { get; }
         
         Task LoadAsync();
 

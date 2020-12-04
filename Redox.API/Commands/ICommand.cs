@@ -8,7 +8,7 @@ namespace Redox.API.Commands
         /// This method gets called when the command gets executed.
         /// </summary>
         /// <param name="context"></param>
-        /// <returns></returns>
+        /// <returns>True if successful, False to broadcast the help text to the player.</returns>
         Task<bool> ExecuteAsync(ICommandExecutionContext context);
     }
 }

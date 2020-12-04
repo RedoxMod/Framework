@@ -13,22 +13,20 @@ namespace Redox.API.Player
     /// </summary>
     public interface IRedoxPlayer : IRedoxUser, IEquatable<IRedoxPlayer>
     {
-        #region Information
+        #region Properties
         
         string DisplayName { get; }
         
         string SteamID { get; }
         ulong USteamID { get; }
-        ushort Ping { get; }
+        float Ping { get; }
         
         float Health { get; set; }
         
         bool IsAdmin { get; }
         bool IsOnline { get; }
-        
+        bool IsAlive { get; }
         IPAddress Address { get; }
-        
-        object Object { get; }
         
         CultureInfo Culture { get; }
         string Language { get; }
@@ -49,6 +47,7 @@ namespace Redox.API.Player
         
         void Teleport(float x, float y, float z);
         void Teleport(Position pos);
+        void Kill();
         
         #endregion
 

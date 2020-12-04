@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 using Redox.API.Components;
 using Redox.API.Roles;
-
-using Redox.Core.Parsers;
+using Redox.Core.Components;
+using Redox.Core.Serialization;
 
 namespace Redox.Core.Roles
 {
@@ -55,12 +55,12 @@ namespace Redox.Core.Roles
         {
             try
             {
-                RedoxMod.GetMod().Logger.Info("[RedoxMod] Saving permissions...");
-                JsonParser.ToFile(_filePath, _permissions);
+                RedoxMod.GetMod().TempLogger.Info("[RedoxMod] Saving permissions...");
+                JsonSerializer.ToFile(_filePath, _permissions);
             }
             catch (Exception e)
             {
-                RedoxMod.GetMod().Logger.Error("[RedoxMod] Failed to save permissions data due to error: " + e.Message);
+                RedoxMod.GetMod().TempLogger.Error("[RedoxMod] Failed to save permissions data due to error: " + e.Message);
             }
             return Task.CompletedTask;
 
@@ -70,19 +70,24 @@ namespace Redox.Core.Roles
         {
             try
             {
-                RedoxMod.GetMod().Logger.Info("[RedoxMod] Loading permissions...");
+                RedoxMod.GetMod().TempLogger.Info("[RedoxMod] Loading permissions...");
                 if(!Exists)
                     _permissions = new Dictionary<ulong, HashSet<string>>();
                 else
-                    _permissions = JsonParser.FromFile<IDictionary<ulong, HashSet<string>>>(_filePath);
+                    _permissions = JsonSerializer.FromFile<IDictionary<ulong, HashSet<string>>>(_filePath);
             }
             catch (Exception e)
             {
-                RedoxMod.GetMod().Logger.Error("[RedoxMod] Failed to load permissions data due to error: " + e.Message);
+                RedoxMod.GetMod().TempLogger.Error("[RedoxMod] Failed to load permissions data due to error: " + e.Message);
                 _permissions = new Dictionary<ulong, HashSet<string>>();
             }
 
             return Task.CompletedTask;
+        }
+        
+        public static PermissionsProvider Get()
+        {
+            return (PermissionsProvider)ComponentsProvider.Get().ResolveComponent<IPermissionsProvider>();
         }
     }
 }

@@ -26,13 +26,13 @@ namespace Redox.Core.Http
             }
             else
             {
-                RedoxMod.GetMod().Logger.Warning("[RedoxMod] Failed to create WebRequest due to invalid URl");
+                RedoxMod.GetMod().TempLogger.Warning("[RedoxMod] Failed to create WebRequest due to invalid URl");
             }
         }
         
         public Task RunAsync()
         {
-            RedoxMod.GetMod().Logger.Info("[RedoxMod] Loading WebRequestProvider...");
+            RedoxMod.GetMod().TempLogger.Info("[RedoxMod] Loading WebRequestProvider...");
             
             ServicePointManager.ServerCertificateValidationCallback = AcceptAllCertifications;
             

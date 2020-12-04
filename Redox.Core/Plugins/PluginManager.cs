@@ -9,9 +9,9 @@ namespace Redox.Core.Plugins
     [ComponentInfo("PluginManager", LoadPriority.Low)]
     public sealed class PluginManager : IPluginManager
     {
-        private readonly Dictionary<string, IBasePlugin> _plugins = new Dictionary<string, IBasePlugin>();
+        private readonly IDictionary<string, IBasePlugin> _plugins = new Dictionary<string, IBasePlugin>();
         
-        public void AddPlugin(IBasePlugin plugin)
+        public void AddPlugin(in IBasePlugin plugin)
         {
             if (plugin == null)
                 return;
@@ -23,7 +23,7 @@ namespace Redox.Core.Plugins
             }
         }
         
-        public void RemovePlugin(IBasePlugin plugin)
+        public void RemovePlugin(in IBasePlugin plugin)
         {
             if (plugin == null)
                 return;
